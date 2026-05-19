@@ -1,0 +1,36 @@
+name: Github Actions Test
+run-name: ${{github.actor}} is testing Github Actions
+on: [push]
+
+permissions:
+  contents: write
+
+jobs:
+  Job-01:
+    name: build task
+    runs-on: ubuntu-latest
+    steps:
+      - name: read repo
+        uses: actions/checkout@v4
+
+      - name: check
+        run: |
+          echo 'hello world'
+          pwd
+          ls
+
+      - name: build
+        run: |
+          cd github-action-test
+          npm install
+          npm run build
+          ls -la
+
+      - run: pwd
+
+      - name: deploy to github pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with: 
+          branch: gh-pages
+          folder: github-action-test/.next
+
